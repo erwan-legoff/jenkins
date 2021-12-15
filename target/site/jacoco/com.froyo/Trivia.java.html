@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Trivia.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">testMaven</a> &gt; <a href="index.source.html" class="el_package">com.froyo</a> &gt; <span class="el_source">Trivia.java</span></div><h1>Trivia.java</h1><pre class="source lang-java linenums">package com.froyo;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+public class Trivia {
+
+<span class="fc" id="L8">    ArrayList&lt;String&gt; players = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L9">    int[] places = new int[6];</span>
+<span class="fc" id="L10">    int[] purses  = new int[6];</span>
+<span class="fc" id="L11">    boolean[] inPenaltyBox  = new boolean[6];</span>
+    
+<span class="fc" id="L13">    LinkedList&lt;String&gt; popQuestions = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L14">    LinkedList&lt;String&gt; scienceQuestions = new LinkedList&lt;String&gt;();</span>
+<span class="fc" id="L15">    LinkedList&lt;String&gt; sportsQuestions = new LinkedList&lt;String&gt;();</span>
+<span class="fc" id="L16">    LinkedList&lt;String&gt; rockQuestions = new LinkedList&lt;String&gt;();</span>
+    
+<span class="fc" id="L18">    int currentPlayer = 0;</span>
+    boolean isGettingOutOfPenaltyBox;
+    
+<span class="fc" id="L21">    public  Trivia(){</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">    	for (int i = 0; i &lt; 50; i++) {</span>
+<span class="fc" id="L23">			popQuestions.addLast(&quot;Pop Question &quot; + i);</span>
+<span class="fc" id="L24">			scienceQuestions.addLast((&quot;Science Question &quot; + i));</span>
+<span class="fc" id="L25">			sportsQuestions.addLast((&quot;Sports Question &quot; + i));</span>
+<span class="fc" id="L26">			rockQuestions.addLast(createRockQuestion(i));</span>
+    	}
+<span class="fc" id="L28">    }</span>
+
+	public String createRockQuestion(int index){
+<span class="fc" id="L31">		return &quot;Rock Question &quot; + index;</span>
+	}
+	
+	public boolean isPlayable() {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		return (howManyPlayers() &gt;= 2);</span>
+	}
+
+	public boolean add(String playerName) {
+		
+		
+<span class="fc" id="L41">	    players.add(playerName);</span>
+<span class="fc" id="L42">	    places[howManyPlayers()] = 0;</span>
+<span class="fc" id="L43">	    purses[howManyPlayers()] = 0;</span>
+<span class="fc" id="L44">	    inPenaltyBox[howManyPlayers()] = false;</span>
+	    
+<span class="fc" id="L46">	    System.out.println(playerName + &quot; was added&quot;);</span>
+<span class="fc" id="L47">	    System.out.println(&quot;They are player number &quot; + players.size());</span>
+<span class="fc" id="L48">		return true;</span>
+	}
+	
+	public int howManyPlayers() {
+<span class="fc" id="L52">		return players.size();</span>
+	}
+
+	public void roll(int roll) {
+<span class="fc" id="L56">		System.out.println(players.get(currentPlayer) + &quot; is the current player&quot;);</span>
+<span class="fc" id="L57">		System.out.println(&quot;They have rolled a &quot; + roll);</span>
+		
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">		if (inPenaltyBox[currentPlayer]) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">			if (roll % 2 != 0) {</span>
+<span class="nc" id="L61">				isGettingOutOfPenaltyBox = true;</span>
+				
+<span class="nc" id="L63">				System.out.println(players.get(currentPlayer) + &quot; is getting out of the penalty box&quot;);</span>
+<span class="nc" id="L64">				places[currentPlayer] = places[currentPlayer] + roll;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">				if (places[currentPlayer] &gt; 11) places[currentPlayer] = places[currentPlayer] - 12;</span>
+				
+<span class="nc" id="L67">				System.out.println(players.get(currentPlayer) </span>
+						+ &quot;'s new location is &quot; 
+						+ places[currentPlayer]);
+<span class="nc" id="L70">				System.out.println(&quot;The category is &quot; + currentCategory());</span>
+<span class="nc" id="L71">				askQuestion();</span>
+			} else {
+<span class="nc" id="L73">				System.out.println(players.get(currentPlayer) + &quot; is not getting out of the penalty box&quot;);</span>
+<span class="nc" id="L74">				isGettingOutOfPenaltyBox = false;</span>
+				}
+			
+		} else {
+		
+<span class="fc" id="L79">			places[currentPlayer] = places[currentPlayer] + roll;</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">			if (places[currentPlayer] &gt; 11) places[currentPlayer] = places[currentPlayer] - 12;</span>
+			
+<span class="fc" id="L82">			System.out.println(players.get(currentPlayer) </span>
+					+ &quot;'s new location is &quot; 
+					+ places[currentPlayer]);
+<span class="fc" id="L85">			System.out.println(&quot;The category is &quot; + currentCategory());</span>
+<span class="fc" id="L86">			askQuestion();</span>
+		}
+		
+<span class="fc" id="L89">	}</span>
+
+	private void askQuestion() {
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (currentCategory().equals(&quot;Pop&quot;))</span>
+<span class="nc" id="L93">			System.out.println(popQuestions.removeFirst());</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (currentCategory().equals(&quot;Science&quot;))</span>
+<span class="fc" id="L95">			System.out.println(scienceQuestions.removeFirst());</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (currentCategory().equals(&quot;Sports&quot;))</span>
+<span class="nc" id="L97">			System.out.println(sportsQuestions.removeFirst());</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		if (currentCategory().equals(&quot;Rock&quot;))</span>
+<span class="nc" id="L99">			System.out.println(rockQuestions.removeFirst());		</span>
+<span class="fc" id="L100">	}</span>
+	
+	
+	private String currentCategory() {
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (places[currentPlayer] == 0) return &quot;Pop&quot;;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		if (places[currentPlayer] == 4) return &quot;Pop&quot;;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		if (places[currentPlayer] == 8) return &quot;Pop&quot;;</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if (places[currentPlayer] == 1) return &quot;Science&quot;;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		if (places[currentPlayer] == 5) return &quot;Science&quot;;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		if (places[currentPlayer] == 9) return &quot;Science&quot;;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		if (places[currentPlayer] == 2) return &quot;Sports&quot;;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		if (places[currentPlayer] == 6) return &quot;Sports&quot;;</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		if (places[currentPlayer] == 10) return &quot;Sports&quot;;</span>
+<span class="nc" id="L113">		return &quot;Rock&quot;;</span>
+	}
+
+	public boolean wasCorrectlyAnswered() {
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if (inPenaltyBox[currentPlayer]){</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">			if (isGettingOutOfPenaltyBox) {</span>
+<span class="nc" id="L119">				System.out.println(&quot;Answer was correct!!!!&quot;);</span>
+<span class="nc" id="L120">				purses[currentPlayer]++;</span>
+<span class="nc" id="L121">				System.out.println(players.get(currentPlayer) </span>
+						+ &quot; now has &quot;
+						+ purses[currentPlayer]
+						+ &quot; Gold Coins.&quot;);
+				
+<span class="nc" id="L126">				boolean winner = didPlayerWin();</span>
+<span class="nc" id="L127">				currentPlayer++;</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">				if (currentPlayer == players.size()) currentPlayer = 0;</span>
+				
+<span class="nc" id="L130">				return winner;</span>
+			} else {
+<span class="nc" id="L132">				currentPlayer++;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">				if (currentPlayer == players.size()) currentPlayer = 0;</span>
+<span class="nc" id="L134">				return true;</span>
+			}
+			
+			
+			
+		} else {
+		
+<span class="fc" id="L141">			System.out.println(&quot;Answer was corrent!!!!&quot;);</span>
+<span class="fc" id="L142">			purses[currentPlayer]++;</span>
+<span class="fc" id="L143">			System.out.println(players.get(currentPlayer) </span>
+					+ &quot; now has &quot;
+					+ purses[currentPlayer]
+					+ &quot; Gold Coins.&quot;);
+			
+<span class="fc" id="L148">			boolean winner = didPlayerWin();</span>
+<span class="fc" id="L149">			currentPlayer++;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">			if (currentPlayer == players.size()) currentPlayer = 0;</span>
+			
+<span class="fc" id="L152">			return winner;</span>
+		}
+	}
+	
+	public boolean wrongAnswer(){
+<span class="nc" id="L157">		System.out.println(&quot;Question was incorrectly answered&quot;);</span>
+<span class="nc" id="L158">		System.out.println(players.get(currentPlayer)+ &quot; was sent to the penalty box&quot;);</span>
+<span class="nc" id="L159">		inPenaltyBox[currentPlayer] = true;</span>
+		
+<span class="nc" id="L161">		currentPlayer++;</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">		if (currentPlayer == players.size()) currentPlayer = 0;</span>
+<span class="nc" id="L163">		return true;</span>
+	}
+
+
+	private boolean didPlayerWin() {
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		return !(purses[currentPlayer] == 6);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

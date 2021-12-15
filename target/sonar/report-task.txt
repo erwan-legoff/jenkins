@@ -1,0 +1,6 @@
+projectKey=testMaven
+serverUrl=http://localhost:9000
+serverVersion=9.2.1.49989
+dashboardUrl=http://localhost:9000/dashboard?id=testMaven
+ceTaskId=AX24bQ-liQQk4eb4taYn
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX24bQ-liQQk4eb4taYn
