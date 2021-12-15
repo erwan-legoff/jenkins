@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.froyo;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author erwan.legoff
+ * @author 33676
  */
 public class TriviaTest {
     
@@ -126,7 +127,7 @@ public class TriviaTest {
     /**
      * Test of wrongAnswer method, of class Trivia.
      */
-    @Test
+    
     public void testWrongAnswer() {
         System.out.println("wrongAnswer");
         Trivia object = new Trivia();

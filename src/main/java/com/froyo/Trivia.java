@@ -1,11 +1,13 @@
 package com.froyo;
 
-import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Trivia {
-		 Logger logger = org.slf4j.LoggerFactory.getLogger(Trivia.class);
+		 Logger logger = Logger.getLogger(getClass().getName());
 
     ArrayList<String> players = new ArrayList<>();
     int[] places = new int[6];
@@ -51,7 +53,7 @@ public class Trivia {
 	    places[howManyPlayers()] = 0;
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
-			if (logger.isDebugEnabled()) {
+			if (logger.getLevel() == Level.INFO) {
 				logger.info(String.format("%s was added", playerName));
 				logger.info(String.format("They are player number %d", players.size()));
 			}
@@ -64,16 +66,16 @@ public class Trivia {
 	}
 
 	public void roll(int roll) {
-		if(logger.isDebugEnabled()) {
-			logger.debug(String.format("%s is the current player", players.get(currentPlayer)));
-			logger.debug(String.format("They have rolled a %d", roll));
+		if(logger.getLevel() == Level.INFO) {
+			logger.info(String.format("%s is the current player", players.get(currentPlayer)));
+			logger.info(String.format("They have rolled a %d", roll));
 		}
 
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				goodRoll(roll);
 			} else {
-				if (logger.isDebugEnabled()) 
+				if (logger.getLevel() == Level.INFO) 
 					logger.info(String.format("%s is not getting out of the penalty box", players.get(currentPlayer)));
 				
 					
@@ -86,7 +88,7 @@ public class Trivia {
 			places[currentPlayer] = places[currentPlayer] + roll;
 			if (places[currentPlayer] > 11)
 				places[currentPlayer] = places[currentPlayer] - 12;
-			if (logger.isDebugEnabled()) {
+			if (logger.getLevel() == Level.INFO) {
 				logger.info(String.format("%s is the current player", players.get(currentPlayer)));
 				logger.info(String.format("The category is %s", currentCategory()));
 			}
@@ -97,22 +99,22 @@ public class Trivia {
 
 	private void goodRoll(int roll) {
 		isGettingOutOfPenaltyBox = true;
-		if(logger.isDebugEnabled())
+		if(logger.getLevel() == Level.INFO)
 			logger.info(String.format("%s is getting out of the penalty box", players.get(currentPlayer)));
 		places[currentPlayer] = places[currentPlayer] + roll;
 		if (places[currentPlayer] > 11)
 			places[currentPlayer] = places[currentPlayer] - 12;
-		if(logger.isDebugEnabled())
+		if(logger.getLevel() == Level.INFO)
 			logger.info(String.format("%s's new location is %d", players.get(currentPlayer), places[currentPlayer]));
 
-		if(logger.isDebugEnabled())
+		if(logger.getLevel() == Level.INFO)
 			logger.info(String.format("The category is %s", currentCategory()));
 
 		askQuestion();
 	}
 
 	private void askQuestion() {
-		if (logger.isDebugEnabled()) {
+		if (logger.getLevel() == Level.INFO) {
 
 			if (currentCategory().equals(POP))
 				logger.info(String.format("%s", rockQuestions.removeFirst()));
@@ -172,7 +174,7 @@ public class Trivia {
 	private boolean currentPlayerWin() {
 		logger.info("Answer was correct!!!!");
 		purses[currentPlayer]++;
-		if (logger.isDebugEnabled()) 
+		if (logger.getLevel() == Level.INFO) 
 			logger.info(String.format("%s now has %d Gold Coins.", players.get(currentPlayer), purses[currentPlayer]));
 		
 		
@@ -186,7 +188,7 @@ public class Trivia {
 	public boolean wrongAnswer(){
 		logger.info("Question was incorrectly answered");
 		//use String.format instead
-		if (logger.isDebugEnabled()) 
+		if (logger.getLevel() == Level.INFO) 
 			logger.info(String.format("%s was sent to the penalty box", players.get(currentPlayer)));
 
 		inPenaltyBox[currentPlayer] = true;
